@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
   RootState,
+  updateAccountNav,
   updateProductMenu,
   updateSidebar,
 } from "../../Features/Features";
@@ -34,7 +35,7 @@ const Sidebar = () => {
     <div
       className={`${
         !showSidebar && "hidden"
-      } absolute lg:relative lg:block w-[300px] bg-[var(--sidebar-color)] text-white min-h-screen z-[999]`}
+      } absolute lg:relative lg:block w-[270px] bg-[var(--sidebar-color)] text-white min-h-screen z-[999]`}
     >
       <div className="relative h-[70px] border-b border-[var(--border-color)] flex items-center px-5">
         <p
@@ -108,7 +109,10 @@ const Sidebar = () => {
             className={`${
               pageNavigate === "setting" && "bg-[var(--border-color)]"
             } cursor-pointer p-2 rounded-[8px] hover:bg-[var(--border-color)] flex items-center gap-4`}
-            onClick={() => fn_navigationTo({ nav: "/setting" })}
+            onClick={() => {
+              fn_navigationTo({ nav: "/setting/personal-information" });
+              dispatch(updateAccountNav("personal"));
+            }}
           >
             <IoSettingsSharp className="scale-[1.2]" />
             Setting

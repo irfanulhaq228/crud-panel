@@ -273,7 +273,7 @@ const EditProduct = () => {
           type="submit"
           className="bg-[--sidebar-color] h-[50px] rounded-[8px] shadow-md text-gray-200 font-[500] my-[10px]"
         >
-          Add Product
+          Edit Product
         </button>
       </form>
     </div>

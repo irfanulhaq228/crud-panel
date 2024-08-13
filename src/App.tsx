@@ -10,6 +10,9 @@ import { RootState } from "./Features/Features";
 import ProductList from "./Pages/Product/ProductList";
 import AddProduct from "./Pages/Product/ProductAdd";
 import EditProduct from "./Pages/Product/ProductEdit";
+import PersonalInformation from "./Components/PersonalInformation/PersonalInformation";
+import AddressInformation from "./Components/AddressInformation/AddressInformation";
+import FinancialInformation from "./Components/FinancialInformation/FinancialInformation";
 
 function App() {
   const darkMode = useSelector((state: RootState) => state.darkMode);
@@ -21,12 +24,16 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Dashboard />} />
-
             <Route path="/product-list" element={<ProductList />} />
             <Route path="/new-product" element={<AddProduct />} />
             <Route path="/product-edit" element={<EditProduct />} />
 
-            <Route path="/setting" element={<Setting />} />
+            <Route path="/setting" element={<Setting />}>
+
+              <Route path="personal-information" element={<PersonalInformation />} />
+              <Route path="address-information" element={<AddressInformation />} />
+              <Route path="financial-information" element={<FinancialInformation />} />
+            </Route>
           </Routes>
         </div>
       </div>

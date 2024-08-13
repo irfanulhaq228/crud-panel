@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Table } from "antd";
+import { Table, Button } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { TableColumnsType, TableProps } from "antd";
 
 import img from "../../assets/pro2.jpg";
@@ -120,7 +121,13 @@ const ProductList = () => {
       title: "Product Image",
       dataIndex: "image",
       key: "image",
-      render: (text: string) => <img src={text} alt="Product" style={{ width: 50, height: 50, borderRadius: "6px" }} />,
+      render: (text: string) => (
+        <img
+          src={text}
+          alt="Product"
+          style={{ width: 50, height: 50, borderRadius: "6px" }}
+        />
+      ),
       ellipsis: true,
     },
     {
@@ -146,6 +153,25 @@ const ProductList = () => {
       sorter: (a, b) => a.price - b.price,
       sortOrder: sortedInfo.columnKey === "price" ? sortedInfo.order : null,
       ellipsis: true,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <div>
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => console.log("edit", record.name)}
+          />
+          <Button
+            type="link"
+            icon={<DeleteOutlined />}
+            onClick={() => console.log("delete", record.name)}
+            danger
+          />
+        </div>
+      ),
     },
   ];
 
