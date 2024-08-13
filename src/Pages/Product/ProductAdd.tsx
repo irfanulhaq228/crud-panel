@@ -6,7 +6,7 @@ import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 
 import PagesHeader from "../../Components/PagesHeader/PagesHeader";
-import { RootState, updatePageNavigation } from "../../Features/Features";
+import { RootState, updatePageNavigation, updateProduct } from "../../Features/Features";
 import { IoCloseCircle, IoImageSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -51,6 +51,7 @@ const AddProduct = () => {
     price: "",
     discount: "",
   };
+
   const Formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
@@ -77,9 +78,9 @@ const AddProduct = () => {
       imageObjects.forEach((image) => {
         formData.append("images", image);
       });
-
+      dispatch(updateProduct(formData));
       toast.success("Product Added Successfully");
-      navigate("/product-list");
+      navigate("/product/product-list");
     },
   });
 

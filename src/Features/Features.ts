@@ -9,6 +9,7 @@ interface FeaturesState {
   personalInfo: object;
   addressInfo: object;
   financialInfo: object;
+  product: object;
 }
 
 const initialState: FeaturesState = {
@@ -19,7 +20,8 @@ const initialState: FeaturesState = {
   accountSubNav: "personal",
   personalInfo: {},
   addressInfo: {},
-  financialInfo: {}
+  financialInfo: {},
+  product: {}
 };
 
 export const featuresSlice = createSlice({
@@ -43,12 +45,19 @@ export const featuresSlice = createSlice({
     },
     updatePersonalInfo: (state, action: PayloadAction<object>) => {
       state.personalInfo = action.payload;
+      console.log("personal info api pending");
     },
     updateAddressInfo: (state, action: PayloadAction<object>) => {
       state.addressInfo = action.payload;
+      console.log("address api pending");
     },
     updateFinancialInfo: (state, action: PayloadAction<object>) => {
       state.financialInfo = action.payload;
+      console.log("api pending");
+    },
+    updateProduct: (state, action: PayloadAction<object>) => {
+      state.product = action.payload;
+      console.log("create api api pending");
     },
   },
 });
@@ -61,7 +70,8 @@ export const {
   updateAccountNav,
   updatePersonalInfo,
   updateAddressInfo,
-  updateFinancialInfo
+  updateFinancialInfo,
+  updateProduct
 } = featuresSlice.actions;
 export const featuresReducer = featuresSlice.reducer;
 export type RootState = ReturnType<typeof featuresReducer>;
