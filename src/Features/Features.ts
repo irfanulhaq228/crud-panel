@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { apiUrl } from "../URL";
-
+import toast from "react-hot-toast";
 
 async function fn_createApi(data: any) {
   try {
@@ -53,6 +53,9 @@ async function fn_editApi(data: any) {
   const id = data.get("id");
   const response = await axios.patch(`${apiUrl}/product/${id}`, data);
   console.log(response);
+  if (response?.status === 200) {
+    toast.success("Product Updated Successfully");
+  }
 }
 
 interface FeaturesState {

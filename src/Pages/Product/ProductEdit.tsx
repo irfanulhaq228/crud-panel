@@ -21,7 +21,7 @@ const EditProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const id:any = searchParams.get("id");
+  const id: any = searchParams.get("id");
   const darkMode = useSelector((state: RootState) => state.darkMode);
   const { quill, quillRef } = useQuill();
   const [images, setImages] = useState<(string | File)[]>([]);
@@ -118,8 +118,9 @@ const EditProduct = () => {
       newUploads.forEach((image) => formData.append("images", image));
 
       dispatch(updateEditProduct(formData));
-      toast.success("Product Edited Successfully");
-      navigate("/product/product-list");
+      setTimeout(() => {
+        navigate("/product/product-list");
+      }, 1000);
     },
   });
 
@@ -139,16 +140,14 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (product?.images?.length) {
-      const fetchedImages = product.images.map(
-        (img: string) => {
-          console.log(img);
-          if(img.split('d')[0] === 'uploa'){
-          return (`${imageUrl}/${img}`);
-          }else{
-            return (`${imageUrl}/upload/${img}`);
-          }
+      const fetchedImages = product.images.map((img: string) => {
+        console.log(img);
+        if (img.split("d")[0] === "uploa") {
+          return `${imageUrl}/${img}`;
+        } else {
+          return `${imageUrl}/upload/${img}`;
         }
-      );
+      });
       setImages(fetchedImages);
     }
   }, [product, imageUrl]);
