@@ -69,11 +69,11 @@ const AddProduct = () => {
         return;
       }
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("code", values.code);
-      formData.append("description", values.description);
-      formData.append("price", values.price);
-      formData.append("discount", values.discount);
+      formData.append("productName", values.name);
+      formData.append("productCode", values.code);
+      formData.append("productDescription", values.description);
+      formData.append("productPrice", values.price);
+      formData.append("productDiscount", values.discount);
 
       imageObjects.forEach((image) => {
         formData.append("images", image);

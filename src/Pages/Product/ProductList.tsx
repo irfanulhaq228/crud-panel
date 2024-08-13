@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Table, Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { TableColumnsType, TableProps } from "antd";
-
-import img from "../../assets/pro2.jpg";
 
 type OnChange = NonNullable<TableProps<DataType>["onChange"]>;
 
@@ -21,100 +20,41 @@ interface DataType {
 
 import PagesHeader from "../../Components/PagesHeader/PagesHeader";
 import { updatePageNavigation } from "../../Features/Features";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { apiUrl, imageUrl } from "../../URL";
 
 const ProductList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [productData, setProductData] = useState([]);
   const [sortedInfo, setSortedInfo] = useState<Sorts>({});
+
+  const fn_getProducts = async () => {
+    const response = await axios.get(`${apiUrl}/product`);
+    setProductData(response?.data?.results);
+  };
+
   useEffect(() => {
     dispatch(updatePageNavigation("product-list"));
+    fn_getProducts();
   }, [dispatch]);
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      image: img,
-      name: "John Brown",
-      age: 32,
-      price: 500,
-    },
-    {
-      key: "2",
-      image: img,
-      name: "Jim Green",
-      age: 42,
-      price: 500,
-    },
-    {
-      key: "3",
-      image: img,
-      name: "Joe Black",
-      age: 32,
-      price: 500,
-    },
-    {
-      key: "4",
-      image: img,
-      name: "Jim Red",
-      age: 32,
-      price: 500,
-    },
-    {
-      key: "5",
-      image: img,
-      name: "John Brown",
-      age: 32,
-      price: 500,
-    },
-    {
-      key: "6",
-      image: img,
-      name: "Jim Green",
-      age: 42,
-      price: 500,
-    },
-    {
-      key: "7",
-      image: img,
-      name: "Joe Black",
-      age: 32,
-      price: 500,
-    },
-    {
-      key: "8",
-      image: img,
-      name: "Jim Red",
-      age: 32,
-      price: 600,
-    },
-    {
-      key: "9",
-      image: img,
-      name: "John Brown",
-      age: 32,
-      price: 600,
-    },
-    {
-      key: "10",
-      image: img,
-      name: "Jim Green",
-      age: 42,
-      price: 600,
-    },
-    {
-      key: "11",
-      image: img,
-      name: "Joe Black",
-      age: 32,
-      price: 400,
-    },
-    {
-      key: "12",
-      image: img,
-      name: "Jim Red",
-      age: 32,
-      price: 400,
-    },
-  ];
+  const [data, setData] = useState<any>([]);
+
+  useEffect(() => {
+    if (productData?.length > 0) {
+      const updatedData = productData.map((item: any) => ({
+        key: item?.id,
+        image: item?.images[0], // Assuming img is defined elsewhere in your component
+        name: item?.productName,
+        age: item?.productCode,
+        price: item?.productPrice,
+      }));
+
+      setData(updatedData); // Update state once with the complete array
+    }
+  }, [productData]);
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -123,7 +63,7 @@ const ProductList = () => {
       key: "image",
       render: (text: string) => (
         <img
-          src={text}
+          src={`${imageUrl}/${text}`}
           alt="Product"
           style={{ width: 50, height: 50, borderRadius: "6px" }}
         />
@@ -162,12 +102,12 @@ const ProductList = () => {
           <Button
             type="link"
             icon={<EditOutlined />}
-            onClick={() => console.log("edit", record.name)}
+            onClick={() => navigate(`/product/product-edit?id=${record.key}`)}
           />
           <Button
             type="link"
             icon={<DeleteOutlined />}
-            onClick={() => console.log("delete", record.name)}
+            onClick={() => fn_deleteImage(record.key)}
             danger
           />
         </div>
@@ -178,6 +118,17 @@ const ProductList = () => {
   const handleChange: OnChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter as Sorts);
+  };
+
+  const fn_deleteImage = async (id: any) => {
+    const response = await axios.delete(`${apiUrl}/product/${id}`);
+    if (response?.status === 200) {
+      const updatedData = data.filter((item: any) => item.key !== id);
+      setData(updatedData);
+      return toast.success("Product Deleted");
+    } else {
+      return toast.error("Network Error");
+    }
   };
 
   return (

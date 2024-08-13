@@ -1,4 +1,59 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { apiUrl } from "../URL";
+
+
+async function fn_createApi(data: any) {
+  try {
+    const response = await axios.post(`${apiUrl}/product`, data);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fn_personalInfo(data: any) {
+  try {
+    const response = await axios.put(`${apiUrl}/multiplefrom/stepOne`, {
+      firstName: data.firstname,
+      lastName: data.lastname,
+      email: data.email,
+      gender: data.gender,
+      maritalstatus: data.martialStatus,
+      maritalStatus: data.martialStatus,
+      nationality: data.nationality,
+      phoneNumber: data.phoneNumber,
+      birth: data.dob,
+    });
+    console.log("personal data  => ", response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fn_addressInfo(data: any) {
+  try {
+    const response = await axios.put(`${apiUrl}/multiplefrom/stepTwo`, data);
+    console.log("address data  => ", response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fn_financialInfo(data: any) {
+  try {
+    const response = await axios.put(`${apiUrl}/multiplefrom/stepThree`, data);
+    console.log("financial data  => ", response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function fn_editApi(data: any) {
+  const id = data.get("id");
+  const response = await axios.patch(`${apiUrl}/product/${id}`, data);
+  console.log(response);
+}
 
 interface FeaturesState {
   showSideBar: boolean;
@@ -10,6 +65,7 @@ interface FeaturesState {
   addressInfo: object;
   financialInfo: object;
   product: object;
+  editProduct: object;
 }
 
 const initialState: FeaturesState = {
@@ -21,7 +77,8 @@ const initialState: FeaturesState = {
   personalInfo: {},
   addressInfo: {},
   financialInfo: {},
-  product: {}
+  product: {},
+  editProduct: {},
 };
 
 export const featuresSlice = createSlice({
@@ -45,19 +102,23 @@ export const featuresSlice = createSlice({
     },
     updatePersonalInfo: (state, action: PayloadAction<object>) => {
       state.personalInfo = action.payload;
-      console.log("personal info api pending");
+      fn_personalInfo(action.payload);
     },
     updateAddressInfo: (state, action: PayloadAction<object>) => {
       state.addressInfo = action.payload;
-      console.log("address api pending");
+      fn_addressInfo(action.payload);
     },
     updateFinancialInfo: (state, action: PayloadAction<object>) => {
       state.financialInfo = action.payload;
-      console.log("api pending");
+      fn_financialInfo(action.payload);
     },
     updateProduct: (state, action: PayloadAction<object>) => {
       state.product = action.payload;
-      console.log("create api api pending");
+      fn_createApi(action.payload);
+    },
+    updateEditProduct: (state, action: PayloadAction<object>) => {
+      state.editProduct = action.payload;
+      fn_editApi(action.payload);
     },
   },
 });
@@ -71,7 +132,8 @@ export const {
   updatePersonalInfo,
   updateAddressInfo,
   updateFinancialInfo,
-  updateProduct
+  updateProduct,
+  updateEditProduct,
 } = featuresSlice.actions;
 export const featuresReducer = featuresSlice.reducer;
 export type RootState = ReturnType<typeof featuresReducer>;

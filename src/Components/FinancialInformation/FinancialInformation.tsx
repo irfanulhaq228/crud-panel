@@ -25,7 +25,6 @@ const FinancialInformation = () => {
     initialValues: initalValues,
     validationSchema: financialInfoSchema,
     onSubmit: (values) => {
-      console.log(values);
       toast.success("Everything is Cleared!");
       dispatch(updateFinancialInfo(values));
     },

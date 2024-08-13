@@ -33,7 +33,6 @@ const AddressInformation = () => {
     initialValues: initalValues,
     validationSchema: addressInfoSchema,
     onSubmit: (values) => {
-      console.log(values);
       toast.success("2nd Step Cleared!");
       dispatch(updateAccountNav("financial"));
       dispatch(updateAddressInfo(values));
