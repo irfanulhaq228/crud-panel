@@ -184,7 +184,13 @@ const ProductList = () => {
     <div className="flex-1">
       <PagesHeader title="Product List" nav={"Product / Product List"} />
       <div className="mx-[15px] mt-[15px]">
-        <Table columns={columns} dataSource={data} onChange={handleChange} />
+        <Table
+          columns={columns}
+          dataSource={data}
+          onChange={handleChange}
+          scroll={{ y: 400 }}
+          sticky
+        />
       </div>
     </div>
   );
