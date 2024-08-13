@@ -80,7 +80,7 @@ const Sidebar = () => {
                 className={`${
                   pageNavigate === "product-list" && "bg-[var(--border-color)]"
                 } cursor-pointer p-2 ps-11 rounded-[8px] hover:bg-[var(--border-color)] flex items-center gap-4`}
-                onClick={() => fn_navigationTo({ nav: "/product-list" })}
+                onClick={() => fn_navigationTo({ nav: "/product/product-list" })}
               >
                 <PiListMagnifyingGlass className="scale-[1.3]" />
                 Product List
@@ -89,7 +89,7 @@ const Sidebar = () => {
                 className={`${
                   pageNavigate === "product-edit" && "bg-[var(--border-color)]"
                 } cursor-pointer p-2 ps-11 rounded-[8px] hover:bg-[var(--border-color)] flex items-center gap-4`}
-                onClick={() => fn_navigationTo({ nav: "/product-edit" })}
+                onClick={() => fn_navigationTo({ nav: "/product/product-edit" })}
               >
                 <BiSolidEdit className="scale-[1.3]" />
                 Product Edit
@@ -98,7 +98,7 @@ const Sidebar = () => {
                 className={`${
                   pageNavigate === "new-product" && "bg-[var(--border-color)]"
                 } cursor-pointer p-2 ps-11 rounded-[8px] hover:bg-[var(--border-color)] flex items-center gap-4`}
-                onClick={() => fn_navigationTo({ nav: "/new-product" })}
+                onClick={() => fn_navigationTo({ nav: "/product/new-product" })}
               >
                 <VscGitPullRequestCreate className="scale-[1.2]" />
                 New Product
