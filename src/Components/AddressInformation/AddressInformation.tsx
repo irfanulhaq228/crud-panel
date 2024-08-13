@@ -8,15 +8,27 @@ import { useNavigate } from "react-router-dom";
 const AddressInformation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const addressInfo:any = useSelector((state:RootState) => state.addressInfo);
   const darkMode = useSelector((state: RootState) => state.darkMode);
-  const initalValues = {
-    country: "",
-    addressLine1: "",
-    addressLine2: "",
-    city: "",
-    state: "",
-    zipCode: ""
+
+  interface FormValues {
+    country: string;
+    addressLine1: string;
+    addressLine2: string;
+    city: string;
+    state: string;
+    zipCode: string;
   };
+  
+  const initalValues: FormValues = {
+    country: addressInfo?.country ? addressInfo?.country : "",
+    addressLine1: addressInfo?.addressLine1 ? addressInfo?.addressLine1 : "",
+    addressLine2: addressInfo?.addressLine2 ? addressInfo?.addressLine2 : "",
+    city: addressInfo?.city ? addressInfo?.city : "",
+    state: addressInfo?.state ? addressInfo?.state : "",
+    zipCode: addressInfo?.zipCode ? addressInfo?.zipCode : "",
+  };
+  
   const Formik = useFormik({
     initialValues: initalValues,
     validationSchema: addressInfoSchema,
@@ -28,6 +40,7 @@ const AddressInformation = () => {
       navigate("/setting/financial-information");
     },
   });
+
   return (
     <div>
       <p className="font-[600] h-[40px] flex items-center text-[22px]">

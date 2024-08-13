@@ -8,17 +8,31 @@ import { useNavigate } from "react-router-dom";
 const PersonalInformation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const personalInfo:any = useSelector((state:RootState) => state.personalInfo);
   const darkMode = useSelector((state: RootState) => state.darkMode);
-  const initalValues = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    gender: "",
-    martialStatus: "",
-    nationality: "",
-    phoneNumber: "",
-    dob: "",
+
+  interface FormValues {
+    firstname: string;
+    lastname: string;
+    email: string;
+    gender: string;
+    martialStatus: string;
+    nationality: string;
+    phoneNumber: string;
+    dob: string;
+  }
+
+  const initalValues: FormValues = {
+    firstname: personalInfo?.firstname ? personalInfo?.firstname : "",
+    lastname: personalInfo?.lastname ? personalInfo?.lastname : "",
+    email: personalInfo?.email ? personalInfo?.email : "",
+    gender: personalInfo?.gender ? personalInfo?.gender : "",
+    martialStatus: personalInfo?.martialStatus ? personalInfo?.martialStatus : "",
+    nationality: personalInfo?.nationality ? personalInfo?.nationality : "",
+    phoneNumber: personalInfo?.phoneNumber ? personalInfo?.phoneNumber : "",
+    dob: personalInfo?.dob ? personalInfo?.dob : "",
   };
+
   const Formik = useFormik({
     initialValues: initalValues,
     validationSchema: personalInfoSchema,
@@ -30,6 +44,7 @@ const PersonalInformation = () => {
       navigate("/setting/address-information");
     },
   });
+  
   return (
     <div>
       <p className="font-[600] h-[40px] flex items-center text-[22px]">
@@ -77,7 +92,7 @@ const PersonalInformation = () => {
               Last Name*
             </label>
             <input
-              placeholder="First Name"
+              placeholder="Last Name"
               name="lastname"
               value={Formik.values.lastname}
               onChange={Formik.handleChange}

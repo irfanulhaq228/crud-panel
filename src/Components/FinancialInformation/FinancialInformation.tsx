@@ -1,24 +1,36 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../Features/Features";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, updateFinancialInfo } from "../../Features/Features";
 import { useFormik } from "formik";
 import { financialInfoSchema } from "../../Schema/Schema";
 import toast from "react-hot-toast";
 
 const FinancialInformation = () => {
+  const dispatch = useDispatch();
   const darkMode = useSelector((state: RootState) => state.darkMode);
-  const initalValues = {
-    occupation: "",
-    annualIncome: "",
-    sourceOfWealth: "",
+  const financialInfo:any = useSelector((state:RootState) => state.financialInfo);
+  
+  interface FormValues {
+    occupation: string;
+    annualIncome: string;
+    sourceOfWealth: string;
   };
+
+  const initalValues: FormValues = {
+    occupation: financialInfo.occupation ? financialInfo.occupation : "",
+    annualIncome: financialInfo.annualIncome ? financialInfo.annualIncome : "",
+    sourceOfWealth: financialInfo.sourceOfWealth ? financialInfo.sourceOfWealth : "",
+  };
+
   const Formik = useFormik({
     initialValues: initalValues,
     validationSchema: financialInfoSchema,
     onSubmit: (values) => {
       console.log(values);
       toast.success("Everything is Cleared!");
+      dispatch(updateFinancialInfo(values));
     },
   });
+  
   return (
     <div>
       <p className="font-[600] h-[40px] flex items-center text-[22px]">
